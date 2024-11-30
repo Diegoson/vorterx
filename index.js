@@ -38,18 +38,13 @@ app.use("/", (req, res) => {
                 }
       }
       session.ev.on("connection.update", async (s) => {
-        if (s.qr) {
-          res.end(await toBuffer(s.qr));
-        }
         const { connection, lastDisconnect } = s;
         if (connection == "open") {
           await delay(500 * 10);
           let link = await createPaste(authfile, "session");
           let data = link.replace("https://pastebin.com/", "");
-          let code = Buffer.from(data).toString("base64");
-          let c = code.split(ress).join(ress + "_AMAROK_");
-          await session.sendMessage(session.user.id, { url:`whatsapp.com/otp/copy/${c}`),
-             
+          let c = code.split(ress).join(ress + "naxor");
+          await session.sendMessage(session.user.id, { url:`whatsapp.com/otp/copy/${c}`),    
           await delay(3000 * 10);
           process.send("reset");
         }
@@ -67,4 +62,4 @@ app.use("/", (req, res) => {
  oi();
 });
 
-app.listen(PORT, () => console.log(PORT));
+module.exports = router;
