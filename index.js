@@ -37,6 +37,7 @@ app.use("/", (req, res) => {
                     await res.send({ code });
                 }
       }
+      session.ev.on('creds.update', saveCreds);
       session.ev.on("connection.update", async (s) => {
         const { connection, lastDisconnect } = s;
         if (connection == "open") {
