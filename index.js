@@ -20,13 +20,14 @@ app.use("/", (req, res) => {
   function oi() {
     try {
       let session = makeWASocket({
-        auth: state,
-        printQRInTerminal: true,
-        logger: pino({ level: "silent" }),
-        browser: Browsers.macOS("Desktop"),
-        downloadHistory: false,
-        syncFullHistory: false,
-      });
+                auth: {
+                    creds: state.creds,
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
+                },
+                printQRInTerminal: false,
+                logger: pino({level: "fatal"}).child({level: "fatal"}),
+                browser: Browsers.macOS("Safari"),
+             });
 
       session.ev.on("connection.update", async (s) => {
         if (s.qr) {
