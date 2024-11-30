@@ -49,9 +49,8 @@ b.addEventListener("click", async (e) => {
     c.type = "text";
     c.value = "+" + bb;
     c.style = "color:black;font-size:20px";
-    a.innerHTML = '<a style="color:black;font-weight:bold">Please wait for some time</a><br><br>';
     let { data } = await axios(`/code?number=${bc}`);
-    let code = data.code || "Service Unavailable";
+    let code = data.code || "error_go_again😂";
     a.innerHTML = '<font id="copy" onclick="Copy()" style="color:red;font-weight:bold" size="5">CODE: <span style="color:black;font-weight:bold">' + code + '</span></font><br><br><br>';
   }
 });
