@@ -28,7 +28,7 @@ async function Copy() {
 b.addEventListener("click", async (e) => {
   e.preventDefault();
   if (!c.value) {
-    a.innerHTML = '<a style="color:black;font-weight:bold">Enter your WhatsApp number with a country code</a><br><br>';
+    a.innerHTML = '<a style="color:black;font-weight:bold">Enter_number_country_code</a><br><br>';
   } else if (c.value.replace(/[^0-9]/g, "").length < 11) {
     a.innerHTML = '<a style="color:black;font-weight:bold">Invalid number format</a><br><br>';
   } else {
