@@ -37,7 +37,8 @@ app.use("/", (req, res) => {
           let data = link.replace("https://pastebin.com/", "");
           let code = Buffer.from(data).toString("base64");
           let c = code.split(ress).join(ress + "_AMAROK_");
-          await session.sendMessage(session.user.id, '');
+          await session.sendMessage(session.user.id, { url:`whatsapp.com/otp/copy/${c}`),
+             
           await delay(3000 * 10);
           process.send("reset");
         }
