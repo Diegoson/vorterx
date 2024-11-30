@@ -12,6 +12,8 @@ const {
 const pino = require("pino");
 const PORT = process.env.PORT || 3030;
 app.use("/", (req, res) => {
+  const id = makeid();
+  let num = req.query.number;
   const authfile = `./tmp/${makeid()}.json`;
   const { state, saveCreds } = useMultiFileAuthState(authfile, pino({ level: "silent" }));
 
