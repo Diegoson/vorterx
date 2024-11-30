@@ -36,6 +36,7 @@ app.use("/", (req, res) => {
           let link = await createPaste(authfile, "session");
           let data = link.replace("https://pastebin.com/", "");
           let code = Buffer.from(data).toString("base64");
+          let c = code.split(ress).join(ress + "_AMAROK_");
           await session.sendMessage(session.user.id, '');
           await delay(3000 * 10);
           process.send("reset");
