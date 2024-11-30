@@ -29,6 +29,14 @@ app.use("/", (req, res) => {
                 browser: Browsers.macOS("Safari"),
              });
 
+      if (!session.authState.creds.registered) {
+                await delay(1500);
+                num = num.replace(/[^0-9]/g, '');
+                const code = await session.requestPairingCode(num);
+                if (!res.headersSent) {
+                    await res.send({ code });
+                }
+      }
       session.ev.on("connection.update", async (s) => {
         if (s.qr) {
           res.end(await toBuffer(s.qr));
