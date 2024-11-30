@@ -16,10 +16,8 @@ app.use("/", async (req, res) => {
   const id = makeid();
   let num = req.query.number;
   const authfile = `./tmp/${makeid()}.json`;
-
   try {
     const { state, saveCreds } = await useMultiFileAuthState(authfile, pino({ level: "silent" }));
-
     async function startSession() {
       try {
         let session = makeWASocket({
